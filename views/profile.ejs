@@ -1,0 +1,1145 @@
+<%- include('./partials/header.ejs', { loggedinuser, allusers }) %>
+<style>
+  @font-face {
+  font-family: gilroy;
+  src: url(../fonts/Gilroy-Light.ttf);
+}
+*{
+margin:0;
+padding: 0;
+box-sizing: border-box;
+}
+html,body{
+font-family: gilroy;
+width: 100%;
+scroll-behavior: smooth;
+}
+:root{
+  font-size: 62.5%;
+}
+    #profile{
+        height: 100vh;
+        padding-left: 20%;
+        width: 100%;
+        overflow: scroll;
+    }
+    #profile::-webkit-scrollbar{
+    display: none;
+}
+    #profilecontent{
+        width: 90%;
+        display: flex;
+        height: fit-content;
+        position: relative;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.454);
+    }
+    #profilecontentleft{
+        width: 30%;
+        height: 40vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #profilepic{
+        height: 20vh;
+        overflow: hidden;
+        width: 20vh;
+        border-radius: 50%;
+    }
+    #profilepic img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    #profilecontentright{
+        padding-top: 10vh;
+        width: 50%;
+        position: relative;
+        height: fit-content;
+    }
+    #profilecontentrightnav{
+        display: flex;
+        width: 100%;
+        align-items: center;
+}
+#profilecontentrightnav a{
+    font-size: 1vw;
+}
+#profilecontent h2{
+    font-size: 1.5vw;
+    font-weight: 400;
+}
+#profilecontentright button{
+    margin-left: 3vw;
+    padding: .3vw 1vw;
+    background-color: rgba(94, 94, 94, 0.457);
+    border-radius: 10px;
+    transition: all linear .2s;
+    border: none;
+    color: white;
+}
+
+#profileposts{
+    height: fit-content;
+    margin-top: .5vw;
+    scroll-snap-align: center;
+    min-height: 55vh;
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    gap: .5vw;
+    flex-wrap: wrap;
+}
+
+#posts{
+    height: 40vh;
+    position: relative;
+    width: 40vh;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 1px solid rgba(128, 128, 128, 0.454);
+
+}
+#posts img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#posts video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#headerimage{
+    position: absolute;
+    height: 10vh;
+    width: 10vh;
+    border-radius: 50%;
+    left: 2vh;
+}
+
+#co{
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    background-color: rgba(44, 44, 44, 0.397);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #followers,#following{
+    position: absolute;
+    display: none;
+    z-index: 99;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.616);
+}
+#followercenter,#followingcenter{
+    height: 50vh;
+    width: 50vh;
+    overflow: hidden;
+    background-color: #262626;
+    border-radius: 7px;
+}
+#followernav,#followingnav{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6vh;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.155);
+}
+#followernav i,#followingnav i{
+    position: absolute;
+    cursor: pointer;
+    right: 1vw;
+    font-size: 2vw;
+}
+#followsearch{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+#followsearch i{
+    transform: translate(0, -.5vh);
+    color: #7e7e7e;
+    font-size: 1vw;
+}
+#searchInput {
+    font-size: 1vw;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: white;
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  #userList{
+    height: 40vh;
+    width: 100%;
+    /* height: fit-content; */
+    padding-bottom: 3vh;
+    overflow-y: scroll;
+  }
+  #userList::-webkit-scrollbar{
+    background-color: #3a3a3a;
+  }
+  #userList::-webkit-scrollbar-thumb{
+    background-color: #4b4b4b;
+  }
+  .fbusername {
+    /* display: block; */
+    width: 100%;
+    display: flex;
+    height: 8vh;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  #followerdetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 60%;
+  }
+  .fbusername img{
+    height: 5vh;
+    width: 5vh;
+    border-radius: 100%;
+    object-fit: cover;
+  }
+  #slidekro{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    padding-left: 15vh;
+    padding-right: 15vh;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  #slidekro i{
+    font-size: 1.5vw;
+  }
+  #s1,#s2,#s3{
+    width: 15vh;
+    align-items: center;
+    justify-content: center;
+    gap: 1vh;
+    display: flex;
+  }
+  #s1:hover,#s2:hover,#s3:hover{
+    opacity: 1;
+  }
+
+  #sabkuch{
+    scroll-snap-type: x mandatory;
+    overflow-x: scroll;
+    display: flex;
+    gap: 15vh;
+    padding-right: 15vh;
+    width: fit-content;
+    }
+  #reelposts{
+    scroll-snap-align: center;
+    height: 100vh;
+    width: 100%;
+    padding-top: 1vh;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 1vh;
+    flex-shrink: 0;
+  }
+  #reelpostschild{
+    height: 60vh;
+    position: relative;
+    width: 18vw;
+  }
+  #reelpostschild video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #archieveposts{
+    height: 100vh;
+    padding-top: 1vh;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 1vh;
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    width: 100%;
+  }
+  
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      display: flex;
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      justify-content: center;
+    }
+  .swiper-pagination{
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    transform: translate(0, 1vh);
+    justify-content: space-evenly;
+    padding-left: 15vh;
+    padding-right: 15vh;
+  }
+  .swiper-pagination-bullet{
+    border-bottom: 4px solid rgba(255, 255, 255, 0.749);
+    border-radius: 100px;
+    width: 13vh;
+    height: 100%;
+    background-color: transparent;
+    border-radius: 0;
+  }
+  #posts:hover #deletekro{
+    opacity: 1;
+  }
+  #reelposts:hover #deletekro{
+    opacity: 1;
+  }
+  #deletekro{
+    text-decoration: none;
+    position: absolute;
+    cursor: pointer;
+    color: white;
+    right: 1vh;
+    z-index: 99999;
+    opacity: 0;
+  }
+  #nopost,#nopost2,#nopost3{
+    z-index: 99;
+    width: 60%;
+    display: none;
+    position: absolute;
+    display: flex;
+    top: 30%;
+    left: 46%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  #nopostcircle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2vw;
+    height: 10vh;
+    width: 10vh;
+    border: 2px solid white;
+    margin-bottom: 2vh;
+    border-radius: 50%;
+  }
+  #changeprofile{
+    top: 40%;
+    border-radius: 10px;
+    background-color: #3a3a3a;
+    left: 40%;
+    display: none;
+    height: 28vh;
+    width: 50vh;
+    /* display: flex; */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    text-align: center;
+    z-index: 9999999;
+  }
+  #changeprofile h1{
+    height: 8vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: 300;
+  }
+  #changeprofile a{
+    width: 100%;
+    height: 6vh;
+    text-decoration: none;
+    font-size: 1vw;
+    border-top: 1px solid grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #changeprofile button{
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-top: 1px solid grey;
+    align-items: center;
+    width: 100%;
+    font-size: 1vw;
+    height: 6vh;
+  }
+  #fb{
+    padding: 1vh 2vh;
+    font-size: .8vw;
+  }
+
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+
+@media(max-width:600px) {
+  @font-face {
+  font-family: gilroy;
+  src: url(../fonts/Gilroy-Light.ttf);
+}
+*{
+margin:0;
+padding: 0;
+box-sizing: border-box;
+}
+html,body{
+font-family: gilroy;
+width: 100%;
+scroll-behavior: smooth;
+}
+:root{
+  font-size: 62.5%;
+}
+  #profile{
+        height: 100vh;
+        padding-left: 0%;
+        width: 100%;
+        overflow: scroll;
+    }
+    #profile::-webkit-scrollbar{
+    display: none;
+}
+    #profilecontent{
+        width: 100%;
+        min-height: 30vh;
+        display: flex;
+
+        height: fit-content;
+        position: relative;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.454);
+      }
+      #profilecontentleft{
+        width: 30%;
+        height: 20vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #profilepic{
+        height: 10vh;
+        overflow: hidden;
+        width: 10vh;
+        border-radius: 50%;
+      }
+    #profilepic img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    #profilecontentright{
+      padding-top: 2vh;
+      width: 50%;
+      
+      position: relative;
+      height: fit-content;
+    }
+    #profilecontentrightnav{
+      display: flex;
+      width: 100%;
+      align-items: center;
+    }
+    #profilecontentrightnav a{
+      font-size: 3vw;
+    }
+    #profilecontent h2{
+      font-size: 4vw;
+      font-weight: 400;
+    }
+    #profilecontentright button{
+      margin-left: 3vw;
+      padding: .8vw 1.5vw;
+      background-color: rgba(94, 94, 94, 0.457);
+      font-size: 3vw;
+      border-radius: 5px;
+      transition: all linear .2s;
+      border: none;
+      color: white;
+    }
+    
+    #profileposts{
+      height: fit-content;
+    scroll-snap-align: center;
+    padding-top: 1vh;
+    min-height: 15vh;
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    /* gap: .5vw; */
+    flex-wrap: wrap;
+}
+
+#posts{
+    height: 16vh;
+    position: relative;
+    width: 16vh;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 1px solid rgba(128, 128, 128, 0.454);
+
+}
+#posts img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#posts video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#headerimage{
+    position: absolute;
+    height: 10vh;
+    width: 10vh;
+    border-radius: 50%;
+    left: 2vh;
+}
+
+#co{
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    background-color: rgba(44, 44, 44, 0.397);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #followers,#following{
+    position: absolute;
+    display: none;
+    z-index: 99;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.616);
+}
+#followercenter,#followingcenter{
+    height: 50vh;
+    width: 50vh;
+    overflow: hidden;
+    background-color: #262626;
+    border-radius: 7px;
+}
+#followernav,#followingnav{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6vh;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.155);
+}
+#followernav i,#followingnav i{
+    position: absolute;
+    cursor: pointer;
+    right: 1vw;
+    font-size: 6vw;
+}
+#followsearch{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+#followsearch i{
+  transform: translate(0, -.5vh);
+    color: #7e7e7e;
+    font-size: 6vw;
+}
+#fbsearchInput,#fbsearchInput1 {
+    font-size: 5vw;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: white;
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 5px;
+  }
+  #userList{
+    height: 40vh;
+    width: 100%;
+    /* height: fit-content; */
+    padding-bottom: 3vh;
+    overflow-y: scroll;
+  }
+  #userList::-webkit-scrollbar{
+    background-color: #3a3a3a;
+  }
+  #userList::-webkit-scrollbar-thumb{
+    background-color: #4b4b4b;
+  }
+  .fbusername {
+    /* display: block; */
+    width: 100%;
+    display: flex;
+    height: 8vh;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  #followerdetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 60%;
+  }
+  .fbusername img{
+    height: 5vh;
+    width: 5vh;
+    border-radius: 100%;
+    object-fit: cover;
+  }
+  #slidekro{
+    position: absolute;
+    bottom: 1vh;
+    display: flex;
+    padding: 0 0 ;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  #slidekro i{
+    font-size: 5vw;
+  }
+  #s1,#s2,#s3{
+    width: 15vh;
+    align-items: center;
+    justify-content: center;
+    gap: 1vh;
+    display: flex;
+  }
+  #s1:hover,#s2:hover,#s3:hover{
+    opacity: 1;
+  }
+
+  #sabkuch{
+    scroll-snap-type: x mandatory;
+    overflow-x: scroll;
+    display: flex;
+    gap: 15vh;
+    padding-right: 15vh;
+    width: fit-content;
+  }
+  #reelposts{
+    scroll-snap-align: center;
+    min-height: 40vh;
+    height: fit-content;
+    width: 100%;
+    padding-left: .5vh;
+    padding-top: 1vh;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 1vh;
+    flex-shrink: 0;
+  }
+  #reelpostschild{
+    height: 28vh;
+    position: relative;
+    width: 31vw;
+  }
+  #reelpostschild video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #archieveposts{
+    height: 100vh;
+    padding-top: 1vh;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 1vh;
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    width: 100%;
+  }
+  
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      display: flex;
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      justify-content: center;
+    }
+  .swiper-pagination{
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    transform: translate(0, .5vh);
+    /* background-color: aqua; */
+    justify-content: space-evenly;
+    padding-left: 0vh;
+    padding-right: 0vh;
+  }
+  .swiper-pagination-bullet{
+    border-bottom: 4px solid rgba(255, 255, 255, 0.749);
+    border-radius: 100px;
+    width: 13vh;
+    height: 100%;
+    background-color: transparent;
+    border-radius: 0;
+  }
+  #posts:hover #deletekro{
+    opacity: 1;
+  }
+  #reelposts:hover #deletekro{
+    opacity: 1;
+  }
+  #deletekro{
+    text-decoration: none;
+    position: absolute;
+    cursor: pointer;
+    color: white;
+    right: 1vh;
+    z-index: 99999;
+    opacity: 0;
+  }
+  #nopost,#nopost2,#nopost3{
+    z-index: 99;
+    width: 60%;
+    display: none;
+    position: absolute;
+    display: flex;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  #nopostcircle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 7vw;
+    height: 10vh;
+    width: 10vh;
+    border: 2px solid white;
+    margin-bottom: 2vh;
+    border-radius: 50%;
+  }
+  #changeprofile{
+    top: 40%;
+    border-radius: 10px;
+    background-color: #3a3a3a;
+    left: 17%;
+    display: none;
+    height: 28vh;
+    width: 30vh;
+    /* display: flex; */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    text-align: center;
+    z-index: 9999999;
+  }
+  #changeprofile h1{
+    height: 8vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: 300;
+  }
+  #changeprofile a{
+    width: 100%;
+    height: 6vh;
+    text-decoration: none;
+    font-size: 3vw;
+    border-top: 1px solid grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #changeprofile button{
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-top: 1px solid grey;
+    align-items: center;
+    width: 100%;
+    font-size: 3vw;
+    height: 6vh;
+  }
+  #fb{
+    padding: 1vh 1.5vh;
+    font-size: 2.5vw;
+  }
+}
+
+
+
+
+
+
+</style>
+
+<div id="followers">
+    <div id="followercenter">
+        <div id="followernav">
+            <h3>Followers</h3>
+            <i class="ri-close-line"></i>
+        </div>
+        <div id="followsearch">
+            <i class="ri-search-line"></i>
+            <input type="text" id="fbsearchInput" placeholder="Search">
+        </div>
+<div id="userList">
+  <% loggedinuser.followers.reverse().forEach(function(follower){ %>
+    <% if(loggedinuser._id === follower._id){%>
+      <div class="fbusername">
+        <img src="../images/allposts/<%= follower.image %>" alt="">
+      <div id="followerdetails">
+          <h4 style="color: #ffffff;"><%=follower.username%></h4>
+          <h4 style="font-weight: 300;color: #bdbdbd;"><%=follower.name%></h4>
+      </div>
+    </div>
+    <%}else{ %>
+    <div class="fbusername">
+        <img src="../images/allposts/<%= follower.image %>" alt="">
+      <div id="followerdetails">
+          <h4 style="color: #ffffff;"><%=follower.username%></h4>
+          <h4 style="font-weight: 300;color: #bdbdbd;"><%=follower.name%></h4>
+      </div>
+      <a href="/remove/<%=follower._id%>">
+        <button id="fb"  style=" background-color: #3a3a3a; color: white;border-radius: 10px; border: none; ">Remove</button>
+      </a>
+    </div>
+    <%}%>
+  <%})%>
+</div>
+    </div>
+</div>
+<div id="following">
+    <div id="followingcenter">
+        <div id="followingnav">
+            <h3>Following</h3>
+            <i class="ri-close-line"></i>
+        </div>
+        <div id="followsearch">
+            <i class="ri-search-line"></i>
+            <input type="text" id="fbsearchInput1" placeholder="Search">
+        </div>
+<div id="userList">
+  <% loggedinuser.following.reverse().forEach(function(following){ %>
+      <% if(loggedinuser._id === following._id){%>
+        <div class="fbusername">
+          <img src="../images/allposts/<%= following.image %>" alt="">
+          <div id="followerdetails">
+            <h4 style="color: #ffffff;"><%=following.username%></h4>
+            <h4 style="font-weight: 300;color: #bdbdbd;"><%=following.name%></h4>
+        </div>
+      </div>
+<%} else {%>
+  <div class="fbusername">
+      <img src="../images/allposts/<%= following.image %>" alt="">
+      <div id="followerdetails">
+        <h4 style="color: #ffffff;"><%=following.username%></h4>
+        <h4 style="font-weight: 300;color: #bdbdbd;"><%=following.name%></h4>
+    </div>
+    <a href="/unfollow/<%=following._id%>">
+      <button id="fb"  style=" background-color: #3a3a3a; color: white;border-radius: 10px; border: none; ">Following</button>
+    </a>
+  </div>
+  <%}%>  
+  <%})%>
+</div>
+    </div>
+</div>
+<div id="profile">
+  <div id="changeprofile">
+    <h1>Change Profile</h1>
+    <button id="newphoto" style="color: #007BF7;">Upload Photo </button>
+    <a  style="color: red;" href="/removeCurrentPhoto">Remove current Photo</a>
+    <button id="cancelkro">Cancel</button>
+    <form action="/uploadpic" method="post" enctype="multipart/form-data" id="form1" style="display: none;">
+      <input type="file" name="pic" id="changedp">
+    </form>
+  </div>
+    <div id="profilecontent">
+        <div id="profilecontentleft">
+            <div id="profilepic">
+                <img src="../images/allposts/<%= loggedinuser.image %>" alt="">
+            </div>
+        </div>
+        <div id="profilecontentright">
+            <div id="profilecontentrightnav">
+                <h2>@
+                    <%=loggedinuser.username%>
+                </h2>
+                <a href="/edit"><button>Edit Profile</button></a>
+                <a href="/logout"><button>Log Out</button></a>
+            </div><br>
+            <div style="display: flex;" id="details">
+                <h3 style="margin-right: 2vw;"><%=loggedinuser.posts.length%> Posts</h3>
+                <h3 id="followerbtn" style="margin-right: 2vw; cursor: pointer;"><%=loggedinuser.followers.length%> Followers</h3>
+                <h3 id="followingbtn" style=" cursor: pointer;"><%=loggedinuser.following.length%> Following</h3>
+            </div>
+            <h2>
+                <%=loggedinuser.name%>
+            </h2><br>
+            <h2 style="width: 40vh;"> <%=loggedinuser.bio%></h2>
+        </div>
+        <div id="slidekro">
+            <div id="s1">
+                <i class="ri-grid-fill"></i>
+                <h3>All posts</h3>
+            </div>
+            <div id="s2">
+                <svg aria-label="Reels" class="_ab6-" color="rgb(245, 245, 245)" fill="rgb(245, 245, 245)" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="2.049" x2="21.95" y1="7.002" y2="7.002"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="13.504" x2="16.362" y1="2.001" y2="7.002"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.207" x2="10.002" y1="2.11" y2="7.002"></line><path d="M2 12.001v3.449c0 2.849.698 4.006 1.606 4.945.94.908 2.098 1.607 4.946 1.607h6.896c2.848 0 4.006-.699 4.946-1.607.908-.939 1.606-2.096 1.606-4.945V8.552c0-2.848-.698-4.006-1.606-4.945C19.454 2.699 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.546 2 5.704 2 8.552Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M9.763 17.664a.908.908 0 0 1-.454-.787V11.63a.909.909 0 0 1 1.364-.788l4.545 2.624a.909.909 0 0 1 0 1.575l-4.545 2.624a.91.91 0 0 1-.91 0Z" fill-rule="evenodd"></path></svg>
+                <h3>Reels</h3>
+            </div>
+            <div id="s3">
+                <i class="ri-bookmark-fill"></i>
+                <h3>Saved</h3>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div id="nopost">
+            <div id="nopostcircle"><i class="ri-camera-line"></i></div>
+            <h3>No Post Yet</h3>
+          </div>
+          <div id="profileposts">
+            <% loggedinuser.posts.reverse().forEach(function(post){ %>
+                <div id="posts">
+                    <% const fileExtension = post.postimage.split('.').pop().toLowerCase(); %>
+                    <% if (fileExtension === 'mp4' || fileExtension === 'mkv') { %>
+          <div id="co"><h6 style="font-size: 2vh;"><%= post.likes.length %><i class="ri-heart-fill"  style="margin-right: 2vw;"></i><%= post.comments.length %><i class="ri-chat-3-fill"></i></h6></div>
+    
+                        <video src="../images/allposts/<%= post.postimage %>" loop autoplay muted></video>
+                    <% } else { %>
+          <div id="co"><h6 style="font-size: 2vh;"><%= post.likes.length %><i class="ri-heart-fill"  style="margin-right: 2vw;"></i><%= post.comments.length %><i class="ri-chat-3-fill"></i></h6></div>
+    
+                  <img src="../images/allposts/<%= post.postimage %>" alt="">
+                  <% } %>
+                  <a href="/delete/<%=post._id%>" id="deletekro"><i class="ri-delete-bin-7-line"></i></a>
+                </div>
+                <% }) %>
+        </div>
+        </div>
+        <div class="swiper-slide">
+          <div id="nopost2">
+            <div id="nopostcircle">
+              <svg aria-label="Reels" class="_ab6-" color="rgb(245, 245, 245)" fill="rgb(245, 245, 245)" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="2.049" x2="21.95" y1="7.002" y2="7.002"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="13.504" x2="16.362" y1="2.001" y2="7.002"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.207" x2="10.002" y1="2.11" y2="7.002"></line><path d="M2 12.001v3.449c0 2.849.698 4.006 1.606 4.945.94.908 2.098 1.607 4.946 1.607h6.896c2.848 0 4.006-.699 4.946-1.607.908-.939 1.606-2.096 1.606-4.945V8.552c0-2.848-.698-4.006-1.606-4.945C19.454 2.699 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.546 2 5.704 2 8.552Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M9.763 17.664a.908.908 0 0 1-.454-.787V11.63a.909.909 0 0 1 1.364-.788l4.545 2.624a.909.909 0 0 1 0 1.575l-4.545 2.624a.91.91 0 0 1-.91 0Z" fill-rule="evenodd"></path></svg>
+            </div>
+            <h3>No Reels Yet</h3>
+          </div>
+          <div id="reelposts">
+            <% loggedinuser.posts.reverse().forEach(function(post){ %>
+                <% const fileExtension = post.postimage.split('.').pop().toLowerCase(); %>
+                <% if (fileExtension === 'mp4' || fileExtension === 'mkv') { %>
+                    <div id="reelpostschild">
+                            <div id="co"><h6 style="font-size: 2vh;"><%= post.likes.length %><i class="ri-heart-fill"  style="margin-right: 2vw;"></i><%= post.comments.length %><i class="ri-chat-3-fill"></i></h6></div>
+                        <video src="../images/allposts/<%= post.postimage %>" loop autoplay muted></video>
+                        <a href="/delete/<%=post._id%>" id="deletekro"><i class="ri-delete-bin-7-line"></i></a>
+                    </div>
+                  <% } %>
+                <% }) %>
+        </div>
+        </div>
+        <div class="swiper-slide">
+          <div id="nopost3">
+            <div id="nopostcircle">                <i class="ri-bookmark-fill"></i>
+            </div>
+            <h3>No Saved Posts</h3>
+          </div>
+          <div id="archieveposts">
+            <% loggedinuser.archieve.reverse().forEach(function(post){ %>
+                <div id="posts">
+                    <% const fileExtension = post.postimage.split('.').pop().toLowerCase(); %>
+                    <% if (fileExtension === 'mp4' || fileExtension === 'mkv') { %>
+          <div id="co"><h6 style="font-size: 2vh;"><%= post.likes.length %><i class="ri-heart-fill"  style="margin-right: 2vw;"></i><%= post.comments.length %><i class="ri-chat-3-fill"></i></h6></div>
+    
+                        <video src="../images/allposts/<%= post.postimage %>" loop autoplay muted></video>
+                    <% } else { %>
+          <div id="co"><h6 style="font-size: 2vh;"><%= post.likes.length %><i class="ri-heart-fill"  style="margin-right: 2vw;"></i><%= post.comments.length %><i class="ri-chat-3-fill"></i></h6></div>
+    
+                  <img src="../images/allposts/<%= post.postimage %>" alt="">
+                  <% } %>
+                <a href="/unarchieve/<%=post._id%>" id="deletekro">                <i class="ri-bookmark-fill"></i>
+                </a>
+
+                </div>
+                <% }) %>
+        </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+<% include ./partials/footer.ejs %>
+
+
+<script>
+
+  document.querySelector("#newphoto").addEventListener("click",function(){
+    document.querySelector("#changedp").click()
+  })
+
+  document.querySelector("#profilepic").addEventListener("click",function(){
+    document.querySelector("#changeprofile").style.display="flex"
+  })
+    
+  document.querySelector("#cancelkro").addEventListener("click",function(){
+    document.querySelector("#changeprofile").style.display="none"
+  })
+    
+  document.querySelector("#changedp").addEventListener("change",function(){
+    document.querySelector("#form1").submit()
+    document.querySelector("#changeprofile").style.display="none"
+  })
+
+  document.querySelector("#followerbtn").addEventListener("click",function(){
+  document.querySelector("#followers").style.display="flex"
+})
+document.querySelector("#followernav i").addEventListener("click",function(){
+  document.querySelector("#followers").style.display="none"
+})
+document.querySelector("#followingbtn").addEventListener("click",function(){
+  document.querySelector("#following").style.display="flex"
+})
+document.querySelector("#followingnav i").addEventListener("click",function(){
+  document.querySelector("#following").style.display="none"
+})
+    
+    document.querySelectorAll("#posts").forEach(function(dets) {
+  dets.addEventListener("mousemove", function(elem) {
+    var mila = elem.srcElement.parentElement.childNodes[1];
+    
+    // Set opacity to 1
+    mila.style.opacity = 1;
+
+    // Automatically set opacity to 0 after 2 seconds
+    setTimeout(function() {
+      mila.style.opacity = 0;
+    }, 1000); // 2000 milliseconds = 2 seconds
+  });
+});
+    document.querySelectorAll("#reelpostschild").forEach(function(dets) {
+  dets.addEventListener("mousemove", function(elem) {
+    var mila = elem.srcElement.parentElement.childNodes[1];
+    
+    // Set opacity to 1
+    mila.style.opacity = 1;
+
+    // Automatically set opacity to 0 after 2 seconds
+    setTimeout(function() {
+      mila.style.opacity = 0;
+    }, 1000); // 2000 milliseconds = 2 seconds
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+        var postsDiv = document.getElementById('profileposts')
+        var nopostDiv = document.getElementById('nopost');
+        if (postsDiv.children.length > 0) {
+            nopostDiv.style.display = 'none';
+        } else {
+            postsDiv.style.display = 'none';
+        }
+    });
+
+document.addEventListener('DOMContentLoaded', function () {
+        var postsDiv = document.getElementById('reelposts');
+        var nopostDiv = document.getElementById('nopost2');
+        if (postsDiv.children.length > 0) {
+            nopostDiv.style.display = 'none';
+        } else {
+            postsDiv.style.display = 'none';
+        }
+    });
+
+document.addEventListener('DOMContentLoaded', function () {
+        var postsDiv = document.getElementById('archieveposts');
+        var nopostDiv = document.getElementById('nopost3');
+        if (postsDiv.children.length > 0) {
+            nopostDiv.style.display = 'none';
+        } else {
+            postsDiv.style.display = 'none';
+        }
+    });
+
+    document.getElementById('fbsearchInput').addEventListener('input', function() {
+    const searchQuery = this.value.toLowerCase();
+    const userElements = document.querySelectorAll('.fbusername');
+
+    userElements.forEach(function(userElement) {
+        const username = userElement.innerText.toLowerCase();
+
+        if (username.includes(searchQuery)) {
+            userElement.style.display = 'flex';
+        } else {
+            userElement.style.display = 'none';
+        }
+    });
+});
+    document.getElementById('fbsearchInput1').addEventListener('input', function() {
+    const searchQuery = this.value.toLowerCase();
+    const userElements = document.querySelectorAll('.fbusername');
+
+    userElements.forEach(function(userElement) {
+        const username = userElement.innerText.toLowerCase();
+
+        if (username.includes(searchQuery)) {
+            userElement.style.display = 'flex';
+        } else {
+            userElement.style.display = 'none';
+        }
+    });
+});
+
+
+var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 30,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
+</script>

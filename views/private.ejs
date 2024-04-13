@@ -1,0 +1,116 @@
+<%- include('./partials/header.ejs',{loggedinuser,allusers}) %>
+
+<style>
+    @font-face {
+  font-family: gilroy;
+  src: url(../fonts/Gilroy-Light.ttf);
+}
+    *{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    html,body{
+    font-family: gilroy;
+    width: 100%;
+    scroll-behavior: smooth;
+    }
+    :root{
+      font-size: 62.5%;
+    }
+    #privatediv{
+        padding: 10vh 5vh;
+        height: 100vh;
+        width: 100%;
+        padding-right: 15vh;
+    }
+    #privatediv h1{
+        font-weight: 300;
+    }
+    #privatediv-1{
+        display: flex;
+        width: 100%;
+        height: 10vh;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+  #nopost{
+    z-index: 99;
+    width: 100%;
+    display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+  }
+  #nopostcircle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2vw;
+    height: 10vh;
+    width: 10vh;
+    border: 2px solid white;
+    margin-bottom: 2vh;
+    border-radius: 50%;
+  }
+  #slider{
+    height: 3vh;
+    width: 6vh;
+    display: flex;
+    border-radius: 100px;
+    padding: 0 .2vh;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+  }
+  #slidercircle{
+    height: 2.8vh;
+    width: 2.8vh;
+    background-color: black;
+    border-radius: 50%;
+  }
+</style>
+<div id="privatediv">
+    <h1>Who can see your content</h1>
+    <br>
+    <h3>Account privacy</h3><br>
+    <div id="privatediv-1">
+        <h3>Private account</h3><br>
+        <% if (loggedinuser.private === false){%>
+            <a href="/updateprivate">
+                <div id="slider">
+                    <div id="slidercircle"></div>
+                </div>
+            </a>
+        <%}else{%>
+            <a href="/removeprivate">
+                <div id="slider"style="justify-content: end;" >
+                    <div id="slidercircle"></div>
+                </div>
+            </a>
+        <%}%>
+
+    </div>
+    <p>When your account is public, your profile and posts can be seen by anyone, on or off Instagram, even if they don’t have an Instagram account.
+        When your account is private, only the followers you approve can see what you share, including your photos or videos on hashtag and location pages, and your followers and following lists</p>
+        <div id="nopost">
+            <div id="nopostcircle">
+                <% if(loggedinuser.private===true){ %>
+                    <i class="ri-lock-2-line"></i>
+                <%} else{%>
+                    <i class="ri-lock-unlock-line"></i>
+                <%}%>
+            </div>
+            <% if(loggedinuser.private===true){ %>
+                <h3 style="font-weight: 300;">This account is private</h3><br>
+            <%} else{%>
+                <h3 style="font-weight: 300;">This account is public</h3><br>
+            <%}%>
+            <h5 style="font-weight: 300;">Follow this account to see their photos and videos</h5>
+          </div>
+</div>
+
+
+<%- include('./partials/footer.ejs',{loggedinuser,allusers}) %>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8' />
+<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+<title>Instagram</title>
+<link rel="shortcut icon" href="/images/logo.png" type="image/x-icon">
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css' />
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css' />
+<link href='https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css' rel='stylesheet' />
+
+<style>
+    @font-face {
+  font-family: gilroy;
+  src: url(../fonts/Gilroy-Light.ttf);
+}
+    *{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    html,body{
+    font-family: gilroy;
+    width: 100%;
+    scroll-behavior: smooth;
+    }
+    :root{
+      font-size: 62.5%;
+    }
+    #callparent{
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: aqua;
+    }
+#callparent-1{
+    height: 100vh;
+    width: 30%;
+    background-color: black;
+}
+#localvideo,#remotevideo{
+    width: 100%;
+    height: 50%;
+}
+</style>
+
+
+
+</head>
+<body>
+
+    <div id="callparent">
+        <div id="callparent-1">
+                <video id="localvideo" src=""   autoplay  ></video>
+                <video id="remotevideo" src=""   autoplay  ></video>
+        </div>
+    </div>
+
+
+<script src='https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js'integrity='sha512-cOH8ndwGgPo+K7pTvMrqYbmI8u8k6Sho3js0gOqVWTmQMlLIi6TbqGWRTpf1ga8ci9H3iPsvDLr4X7xwhC/+DQ=='crossorigin='anonymous' referrerpolicy='no-referrer'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js'integrity='sha512-AMl4wfwAmDM1lsQvVBBRHYENn1FR8cfOTpt8QVbb/P55mYOdahHD4LmHM1W55pNe3j/3od8ELzPf/8eNkkjISQ=='crossorigin='anonymous' referrerpolicy='no-referrer'></script>
+<script src='https://code.jquery.com/jquery-3.6.4.js'integrity='sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=' crossorigin='anonymous'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/lettering.js/0.6.1/jquery.lettering.min.js'integrity='sha512-VJ/iYbiu1eJ6yLimfTi65t2R9TFcG5D9X8ZCfbbEFhTfPnKJh8byoKXEawi5ScJZBYL1eiirL1+MczZDx0Tz9Q=='crossorigin='anonymous' referrerpolicy='no-referrer'></script>
+<script src='https://unpkg.com/textillate@0.4.1/jquery.textillate.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js'></script>
+<script>
+
+   
+    var connection = new WebSocket("ws://localhost:8080")
+    connection.onopen=function(){
+        console.log("connected");
+    }
+
+
+    connection.onmessage = function(msg){
+        var data = JSON.parse(msg.data)
+
+        switch(data.type){
+            case "online":
+                onlineprocess(data.success)
+            break;
+            case "offer":
+                offerprocess(data.offer,data.senderid)
+            break;
+            case "answer":
+                answerprocess(data.answer)
+            break;
+            case "candidate":
+                candidateprocess(data.candidate)
+            break;
+        }
+
+    }
+
+
+    connection.onerror = function(error){
+        console.log(error);
+    }
+    var myconn;
+    var connecteduser;
+    var senderid = "<%=loggedinuser._id%>"
+    var receiverid = "<%=receiverid._id%>"
+    var localvideo = document.querySelector("#localvideo");
+    var remotevideo = document.querySelector("#remotevideo");
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia
+
+    document.addEventListener("DOMContentLoaded", function(){
+        connecteduser=receiverid
+        myconn.createOffer(function(offer){
+            send({
+                type:"offer",
+                offer:offer
+            });
+            myconn.setLocalDescription(offer)
+        },function(error){
+            alert("offer error: ")
+        });
+
+
+    })
+
+
+
+setTimeout(() => {
+    if(connection.readyState == 1){
+        if(senderid != null){
+            console.log(senderid);
+            send({
+                type:"online",
+                senderid:senderid
+            })
+
+        }
+    }else{
+        console.log("something went wrong");
+    }
+}, 3000);
+
+function onlineprocess(success){
+    if(success){
+        navigator.getUserMedia(
+        {
+            audio:true,
+            video:true
+        },
+        function(myStream){
+            stream=myStream,
+            localvideo.srcObject=stream
+
+            var configuration={
+                "iceServers":[
+                    {"url":"stun:stun2.l.google.com:19302"}
+                ]
+            }
+
+            myconn = new webkitRTCPeerConnection(configuration,{
+                optional:[
+                    {
+                        RtpDataChannels:true
+                    }
+                ]
+            })
+            myconn.addStream(stream);
+            myconn.onicecandidate = function(event){
+                if(event.candidate){
+                    send({
+                        type:"candidate",
+                        candidate:event.candidate
+                    })
+                }
+            }
+        },
+        function(error){
+            alert("no no ")
+
+        }
+
+    )
+
+
+    }else{
+        alert("Something went wrong");
+    }
+}
+
+    function send(message){
+        if(connecteduser){
+            message.senderid = connecteduser
+        }
+        connection.send(JSON.stringify(message))
+
+    }
+    function offerprocess(offer,senderid){
+        connecteduser=senderid
+        myconn.setRemoteDescription(new RTCSessionDescription(offer))
+
+        myconn.createAnswer(function(answer){
+            myconn.setLocalDescription(answer);
+            send({
+                type:"answer",
+                answer: answer
+            })
+        },function(error){
+            alert("Error creating")
+        })
+    }
+
+    function answerprocess(answer){
+        myconn.setRemoteDescription(new RTCSessionDescription(answer))
+    }
+
+
+    function candidateprocess(candidate){
+        myconn.addIceCandidate(new RTCIceCandidate(candidate))
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

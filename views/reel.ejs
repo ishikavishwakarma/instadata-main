@@ -1,0 +1,697 @@
+<%- include('./partials/header.ejs',{mp4Posts,loggedinuser,allcomments,allusers,}) %>
+<style>
+  @font-face {
+  font-family: gilroy;
+  src: url(../fonts/Gilroy-Light.ttf);
+}
+*{
+margin:0;
+padding: 0;
+box-sizing: border-box;
+}
+html,body{
+font-family: gilroy;
+width: 100%;
+scroll-behavior: smooth;
+}
+:root{
+  font-size: 62.5%;
+}
+  #reel {
+    height: 100vh;
+    overflow-y: scroll;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-type: y mandatory;
+  }
+  #reel::-webkit-scrollbar {
+    display: none;
+  }
+  #reelvid {
+    margin-left: 30%;
+    height: 95vh;
+    box-shadow: 0px 0px 15px 8px rgba(109, 109, 109, 0.562);
+    scroll-snap-align: center;
+    width: 30%;
+    transition: all linear .5s;
+    margin-bottom: 2vh;
+    flex-shrink: 0;
+    z-index: 99;
+    /* overflow: hidden; */
+    position: relative;
+  }
+  #reelvid video {
+    flex-shrink: 0;
+    border-radius: 10px;
+    height: 95vh;
+    width: 100%;
+    object-fit: cover;
+  }
+  #reellikes {
+    height: 25vh;
+    width: 10vh;
+    display: flex;
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    right: 0vh;
+    bottom: 8vh;
+  }
+  #reelwala {
+    position: absolute;
+    z-index: 99;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    left: 5vh;
+    bottom: 10vh;
+    width: 30vh;
+  }
+  #reelwala img {
+    height: 5vh;
+    width: 5vh;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  #reelvid h3{
+    position: absolute;
+    bottom: 5vh;
+    left: 5vh;
+    width: 400;
+  }
+  #reellikes i {
+    font-size: 2vw;
+  }
+  #reelcomment{
+    height: 60%;
+    width: 20vw;
+    /* opacity: 0; */
+    right: -82%;
+    bottom: 22%;
+    scroll-behavior: smooth;
+    display: none;
+    position: absolute;
+    border-radius: 5px;
+    transition: all linear .5s;
+    z-index: -1;
+    border: 1px solid rgba(128, 128, 128, 0.463);
+  }
+  #comm::-webkit-scrollbar{
+    display: none;
+  }
+  #comm{
+    height: 91%;
+    overflow-y: scroll;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  #reelcomment form{
+    border-top: 1px solid rgba(128, 128, 128, 0.);
+    display: flex;
+    background-color: rgba(105, 105, 105, 0.311);
+    align-items: center;
+    width: 100%;
+    padding-right: 2vh;
+    height: 5vh;
+  }
+  .commen{
+    display: flex;
+    padding-top: 1vh;
+    width: 100%;
+    align-items: center;
+    min-height: 7vh;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.406);
+    height: fit-content;
+  }
+  #reellikes a{
+    color: white;
+    text-decoration: none;
+  }
+  #commimg{
+
+              height: 4vh;
+              margin-left: 2vh;
+              width: 4vh;
+              object-fit: cover;
+              overflow: hidden;
+              border-radius: 50%;
+              flex-shrink: 0;
+              margin-right: 2vh;
+            
+  }
+  #reelscommentinput{
+ 
+            margin-left: 3vh;
+            height: 5vh;
+            background-color: transparent;
+            outline: none;
+
+            border: none;
+            width: 60%;
+            padding-left: 1vh;
+            color: rgb(255, 252, 252);
+            font-size: 1vw;
+          
+  }
+  #reelscommentsubmit{
+    
+            background: transparent;
+            outline: none;
+            border: none;
+            color: rgb(123, 123, 216);
+            font-size: 1vw;
+            margin-left: 5vh;
+          
+  }
+  #reelbtn{
+    font-size: .8vw;
+    margin-left: 4vh;
+    padding: .7vh 1.5vh; 
+  }
+  #close{
+    display: none;
+  }
+
+  @keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.commen {
+  animation: fadeIn 0.5s ease-in-out; /* Adjust the animation duration and easing as needed */
+}
+
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+
+
+@media(max-width:600px) {
+  @font-face {
+  font-family: gilroy;
+  src: url(../fonts/Gilroy-Light.ttf);
+}
+
+  @keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+*{
+margin:0;
+padding: 0;
+box-sizing: border-box;
+}
+html,body{
+font-family: gilroy;
+width: 100%;
+scroll-behavior: smooth;
+}
+:root{
+  font-size: 62.5%;
+}
+
+.commen {
+  animation: fadeIn 0.5s ease-in-out; /* Adjust the animation duration and easing as needed */
+}
+  #reel {
+    height: 100vh;
+    overflow-y: scroll;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-type: y mandatory;
+  }
+  #reel::-webkit-scrollbar {
+    display: none;
+  }
+  #reelvid {
+    margin-left: 0%;
+    height: 100vh;
+    scroll-snap-align: center;
+    width: 100%;
+    transition: all linear .5s;
+    margin-bottom: 0vh;
+    box-shadow: 0 0 0 0 ;
+    flex-shrink: 0;
+    z-index: 99;
+    /* overflow: hidden; */
+    position: relative;
+  }
+  #reelvid video {
+    flex-shrink: 0;
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  #reellikes {
+    height: 27vh;
+    /* background-color: aqua; */
+    width: 10vh;
+    display: flex;
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    right: 0vh;
+    bottom: 12vh;
+  }
+  #reelwala {
+    position: absolute;
+    z-index: 99;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    left: 2vh;
+    bottom: 25vh;
+    width: 30vh;
+  }
+  #reelwala img {
+    height: 5vh;
+    width: 5vh;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  #reelvid h3{
+    position: absolute;
+    bottom: 20vh;
+    font-size: 5vw;
+    left: 3vh;
+    width: 400;
+  }
+  #reellikes i {
+    font-size: 6vw;
+  }
+  #reelcomment{
+    height: 60%;
+    scroll-behavior: smooth;
+    width: 100%;
+    z-index: 99999;
+    background-color: black;
+    /* opacity: 0; */
+    right: 0%;
+    bottom: 0%;
+    display: none;
+    position: absolute;
+    border-radius: 5px;
+    transition: all linear .5s;
+    border: 1px solid rgba(128, 128, 128, 0.463);
+  }
+  #close{
+    display: block;
+    align-items: center;
+    cursor: default;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    padding-top: 1vw;
+    height: 3vh;
+    display: flex;
+    width: 6vh;
+    bottom: 52vh;
+    color: white;
+      border-radius: 10px;
+    background-color: rgb(0, 0, 0);   
+  }
+#close h1{
+  font-size: 3vw;
+  font-weight: 300;
+}
+
+  #comm::-webkit-scrollbar{
+    display: none;
+  }
+  #comm{
+    height: 91%;
+    overflow-y: scroll;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  #reelcomment form{
+    border-top: 1px solid rgba(128, 128, 128, 0.);
+    display: flex;
+    background-color: rgba(105, 105, 105, 0.311);
+    align-items: center;
+    width: 100%;
+    padding-right: 2vh;
+    height: 5vh;
+  }
+  .commen{
+    display: flex;
+    padding-top: 1vh;
+    width: 100%;
+    align-items: center;
+    min-height: 7vh;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.406);
+    height: fit-content;
+  }
+  #reellikes a{
+    color: white;
+    text-decoration: none;
+  }
+  #commimg{
+
+              height: 4vh;
+              margin-left: 2vh;
+              width: 4vh;
+              object-fit: cover;
+              overflow: hidden;
+              border-radius: 50%;
+              flex-shrink: 0;
+              margin-right: 2vh;
+            
+  }
+  #reelscommentinput{
+ 
+            margin-left: 0vh;
+            height: 5vh;
+            background-color: transparent;
+            outline: none;
+
+            border: none;
+            width: 60%;
+            padding-left: 0vh;
+            color: rgb(255, 252, 252);
+            font-size: 4vw;
+          
+  }
+  #reelscommentsubmit{
+            background: transparent;
+            outline: none;
+            border: none;
+            color: rgb(123, 123, 216);
+            font-size: 4vw;
+            margin-left: 5vh;
+          
+  }
+  #reelbtn{
+    font-size: .8vw;
+    margin-left: 4vh;
+    padding: .7vh 1.5vh; 
+  }
+}
+
+
+
+
+
+
+
+
+
+</style>
+<div id="reel">
+  <%
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  shuffleArray(mp4Posts);%>
+  <% mp4Posts.reverse().forEach(function(reel){ %>
+  <div id="reelvid">
+    <div id="reelcomment">
+      <div id="close">
+        <h1>Close</h1>
+      </div>
+      <div  id="comm" class="comm_<%=reel._id%>"  >
+        <% var commentsForPost=allcomments.filter(comment=> comment.postid.equals(reel._id)); %> 
+        <%commentsForPost.reverse().forEach(function(comment) { %>
+          <div class="commen" id="commentwala_<%=reel._id%>">
+          <a href="<%= (reel.userid._id == loggedinuser.id) ? '/profile' : '/profile/' + reel.userid._id %>">
+          <img id="commimg"
+            src="../images/allposts/<%= comment.userid.image %> "
+            alt=""
+          />
+        </a>
+          <h5 style="word-wrap: break-word;word-break: break-all;"><%=comment.comment%></h5>
+        </div>
+        <%})%>
+      </div>
+
+
+
+
+      <form id="commentForm" data-id="<%=reel._id%>" action="/comment/<%=reel._id%>" method="post">
+        <img id="commimg"
+          src="../images/allposts/<%= loggedinuser.image %> "
+          alt=""
+        />
+        <input
+          type="text"
+          name="comment"
+          id="reelscommentinput"
+          placeholder="Write Comment →"
+          oninput="reelscheckInput()"
+        />
+        <input
+          type="submit"
+          id="reelscommentsubmit"
+          value="post"
+        />
+      </form>
+
+
+      </div>
+    <div id="reelwala">
+      <img src="../images/allposts/<%= reel.userid.image %>" alt="" />
+      <a href="<%= (reel.userid._id == loggedinuser.id) ? '/profile' : '/profile/' + reel.userid._id %>"
+        style="margin-left: 2vh; font-size: 3vh; color: white; text-decoration: none;">
+        <%= reel.userid.username %>
+     </a>
+
+     <%if(loggedinuser.id == reel.userid._id){%>
+      <h3></h3>
+      <%}else{%>
+        <% if (loggedinuser.following.indexOf(reel.userid._id) == -1) { %>
+          <a href="/follow/<%=reel.userid._id%>"><button id="reelbtn"  style="   background-color: rgb(0, 179, 255); color: white;border-radius: 10px; border: none;">Follow</button></a>
+        <%}else{%>
+          <a href="/unfollow/<%=reel.userid._id%>"><button id="reelbtn"   style="  background-color: #3a3a3abc; color: white;border-radius: 10px; border: none; ">Following</button></a>
+        <%}%>  
+      <%}%>
+      </div>
+      <h3><%=reel.caption%>scs</h3>
+    <div id="reellikes">
+
+
+
+
+
+      <% if (reel.likes.includes(loggedinuser.id)){ %>
+        <a href="#" onclick="handleLike('<%= reel._id %>')" id="likeButton_<%= reel._id %>">
+          <i style="color: red;" class="ri-heart-3-fill"></i>
+        </a>
+      <% } else { %>
+        <a href="#" onclick="handleLike('<%= reel._id %>')" id="likeButton_<%= reel._id %>">
+          <i class="ri-heart-3-line"></i>
+        </a>
+      <% } %>
+      <h6 id="likeCount_<%= reel._id %>"><%= reel.likes.length %> likes</h6>
+
+
+
+
+
+
+
+
+      <i class="ri-chat-3-line"></i>
+      <h6  id="commentcount_<%= reel._id %>"   style="white-space: nowrap; font-size: 1.5vh;"><%= reel.comments.length %> Comments</h6>
+      <% if (loggedinuser.archieve.includes(reel._id)){%>
+        <a href="/archieve/<%=reel._id%>"><i class="ri-bookmark-fill"></i></a>
+        <% } else {%>
+          <a href="/archieve/<%=reel._id%>"><i class="ri-bookmark-line"></i></a>
+      <%}%>
+      <br>
+      <i class="ri-volume-up-line"></i>
+      </div>
+    <video src="../images/allposts/<%= reel.postimage %>" autoplay loop muted></video>
+    </div>          
+    <%})%>
+  </div>
+
+  <% include ./partials/footer.ejs %>
+  
+<script>
+document.querySelectorAll(".ri-volume-up-line").forEach(function (element) {
+  element.addEventListener("click", function (e) {
+    // Assuming the video is a child of the parent of the clicked element
+    var targetVideo = element.parentElement.parentElement.querySelector('video');
+
+    // Mute the video
+    if (targetVideo) {
+      targetVideo.muted = true;
+      console.log(e);
+      document.querySelector('.ri-volume-up-line').classList.remove('ri-volume-up-line');
+      document.querySelector('.ri-volume-up-line').classList.add('ri-volume-mute-line');
+    }
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  var videoElements = document.querySelectorAll('#reelvid video');
+
+  videoElements.forEach(function (videoElement) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          if (videoElement.paused) {
+            videoElement.play();
+          }
+          videoElement.muted = false;
+        } else {
+          videoElement.pause();
+          videoElement.currentTime = 0; // Rewind to the beginning
+          videoElement.muted = true;
+        }
+      });
+    }, {
+      threshold: 0.5
+    });
+
+    observer.observe(videoElement);
+  });
+});
+
+
+  
+document.querySelectorAll("#reellikes .ri-chat-3-line").forEach(function(dets){
+  flag=0
+  dets.addEventListener("click",function(event){
+    reelcomment=event.srcElement.parentElement.parentElement.childNodes[1]
+    if (flag==0){
+    reelcomment.style.display="initial"
+    flag=1
+    }else{
+    reelcomment.style.display="none"
+    flag=0
+    }
+  })
+})
+
+document.querySelectorAll("#commentForm").forEach(function (form) {
+  form.addEventListener("submit", function (event) {
+    reelscheckInput()
+    event.preventDefault();
+    const commentInput = form.querySelector("#reelscommentinput").value;
+    const postId = form.getAttribute("data-id");
+    axios.post(`/comment/${postId}`, { comment: commentInput })
+      .then(function (response) {
+        // Adjusted the querySelector to find the correct comment count element
+        const commentcountElement = document.querySelector(`#commentcount_${postId}`);
+        if (commentcountElement) {
+          commentcountElement.innerText = `${response.data.comment.commentscount} comments`;
+        }
+        updateComments(response.data.comment, postId);
+        const prevUrl = response.data.prevUrl || '/reel';
+        history.pushState(null, null, prevUrl);
+        form.reset();
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  });
+});
+
+function updateComments(comment, postId) {
+  console.log(comment, postId);
+  const commentContainer = document.querySelector(`.comm_${postId}`);
+  const newCommentElement = document.createElement("div");
+  newCommentElement.classList.add("commen");
+  newCommentElement.innerHTML = `
+    <div class="commen" id="commentwala_${comment.postid}">
+      <a href="${(comment.userid._id == "<%=loggedinuser.id%>") ? '/profile' : '/profile/' + comment.userid._id}">
+        <img id="commimg" src="../images/allposts/${comment.userid.image}" alt="" />
+      </a>
+      <h5 style="word-wrap: break-word; word-break: break-all;">${comment.comment}</h5>
+    </div>
+  `;
+
+  if (commentContainer) {
+    if (commentContainer.firstChild) {
+      commentContainer.insertBefore(newCommentElement, commentContainer.firstChild);
+    } else {
+      commentContainer.appendChild(newCommentElement);
+    }
+
+    // Scroll to the top of the new comment with smooth behavior
+    newCommentElement.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    console.log("Comment element added");
+  } else {
+    console.error(`Comment container .comm_${postId} not found.`);
+  }
+}
+
+
+
+
+
+
+
+
+
+  
+    function reelscheckInput() {
+      var inputValue = document.getElementById("reelscommentinput").value;
+      var submitButton = document.getElementById("reelscommentsubmit");
+      submitButton.disabled = inputValue.trim().length === 0;
+    }
+
+
+
+function handleLike(postId) {
+    axios.post(`/like/${postId}`)
+      .then(response => {
+        // Assuming the response contains updated like count
+        const likeCountElement = document.getElementById(`likeCount_${postId}`);
+        likeCountElement.innerText = `${response.data.likesCount} likes`;
+
+        // Update the like button appearance based on the response
+        const likeButton = document.getElementById(`likeButton_${postId}`);
+        if (response.data.isLiked) {
+          likeButton.innerHTML = '<i style="color: red;" class="ri-heart-3-fill"></i>';
+        } else {
+          likeButton.innerHTML = '<i class="ri-heart-3-line"></i>';
+        }
+      })
+      .catch(error => {
+        console.error('Error handling like:', error);
+      });
+  }
+
+
+
+
+
+
+
+
+
+
+document.querySelector("#close").addEventListener("click",function(){
+  document.querySelector("#reelcomment").style.display="none";
+})
+
+
+
+
+
+
+</script>

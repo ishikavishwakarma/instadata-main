@@ -1,0 +1,724 @@
+<%- include('./partials/header.ejs', { allusers,loggedinuser}) %>
+<style>
+  @font-face {
+  font-family: gilroy;
+  src: url(../fonts/Gilroy-Light.ttf);
+}
+*{
+margin:0;
+padding: 0;
+box-sizing: border-box;
+}
+html,body{
+font-family: gilroy;
+width: 100%;
+scroll-behavior: smooth;
+}
+:root{
+  font-size: 62.5%;
+}
+  #messagediv {
+    height: 100%;
+    position: relative;
+    width: 100%;
+    display: flex;
+  }
+  #messagediv>img{
+    height:  80%;
+    transform: translate(-10vh, 10vh);
+  }
+  #messageall {
+    border-right: 1px solid rgba(97, 97, 97, 0.658);
+    height: 100vh;
+    width: 21vw;
+    z-index: 99;
+    color: white;
+    flex-shrink: 0;
+    padding: 4vh 2vh;
+  }
+  #messageall > h1 {
+    margin-bottom: 4vh;
+  }
+  #messagewala {
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10vh;
+  }
+  .online {
+    height: 1.7vh;
+    width: 1.7vh;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0.5vh;
+    right: 0.3vh;
+    background-color: rgb(8, 254, 8);
+  }
+  .offline {
+    height: 1.7vh;
+    width: 1.7vh;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0.5vh;
+    right: 0.3vh;
+  }
+
+  #messagewalapic {
+    position: relative;
+  }
+  #messagewalapic img {
+    object-fit: cover;
+    height: 8vh;
+    width: 8vh;
+    border-radius: 50%;
+  }
+  #messsagewalalnaam {
+    height: 100%;
+    width: 72%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  #messagebox {
+    display: none;
+    height: 100vh;
+    background-image: url(../images/message.png);
+    background-size: cover;
+    background-position: -25vh 0;
+    padding-left: 2vh;
+    padding-right: 2vh;
+    width: 70vw;
+  }
+  .messageboxnav {
+    display: flex;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.374);
+    position: relative;
+    gap: 3vh;
+    align-items: center;
+    height: 10vh;
+    width: 100%;
+  }
+  #online1 {
+    position: absolute;
+    left: 6.5vh;
+    z-index: 9;
+    bottom: 2vh;
+    background-color: rgb(18, 255, 18);
+    border-radius: 50%;
+    height: 1.5vh;
+    width: 1.5vh;
+  }
+  .messageboxnav img {
+    object-fit: cover;
+    height: 8vh;
+    width: 8vh;
+    border-radius: 50%;
+  }
+  #messagecontainer {
+    padding-top: 2vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    width: 100%;
+    background-color: black;
+    height: 82vh;
+  }
+  #messagecontainer::-webkit-scrollbar {
+    display: none;
+  }
+  #send {
+    display: flex;
+    padding-right: 1vh;
+    width: 100%;
+    gap: 2vh;
+    height: 7vh;
+    border-radius: 100px;
+    border: 1px solid rgba(128, 128, 128, 0.781);
+    padding-left: 3vh;
+    color: white;
+    align-items: center;
+    background-color: transparent;
+  }
+  #send img {
+    height: 70%;
+  }
+  #send i {
+    font-size: 2.8vw;
+  }
+  #send form {
+    position: relative;
+  }
+  #send form input {
+    font-size: 1.5vw;
+    font-weight: 300;
+    height: 100%;
+    width: 53vw;
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+  }
+  #send form input:nth-child(2) {
+    position: absolute;
+    height: 5vh;
+    width: 7vh;
+    opacity: 0;
+    background: #b48b8b;
+  }
+  #sender {
+    display: flex;
+    margin-bottom: 1vh;
+    width: 100%;
+    align-items: center;
+    gap: 1vh;
+    justify-content: start;
+    height: fit-content;
+  }
+  #msg {
+    width: fit-content;
+    padding: 0.5vh 2vh;
+    height: fit-content;
+    background-color: #262626df;
+    border-radius: 100px;
+  }
+  #receiver {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1vh;
+    gap: 1vh;
+    align-items: center;
+    justify-content: end;
+    height: fit-content;
+  }
+  #receiver #msg {
+    background: linear-gradient(#9645cb, #775ed6);
+  }
+  #sender img,
+  #receiver img {
+    height: 4vh;
+    width: 4vh;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  #khali{
+    margin-top: 80%;
+    font-weight: 300;
+    font-size: 2vw;
+  }
+  #receiver>a{
+    text-decoration: none;
+    color: rgba(255, 0, 0, 0.495);
+    font-size: 1vw;
+  }
+  #messagenav-a{
+    text-decoration: none;
+    color: white;
+    font-size: 1.5vw;
+    margin-left: 80%;
+  }
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+
+@media(max-width:600px) {
+  @font-face {
+  font-family: gilroy;
+  src: url(../fonts/Gilroy-Light.ttf);
+}
+*{
+margin:0;
+padding: 0;
+box-sizing: border-box;
+}
+html,body{
+font-family: gilroy;
+width: 100%;
+scroll-behavior: smooth;
+}
+:root{
+  font-size: 62.5%;
+}
+  #messagediv {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    display: block;
+  }
+  #messagediv>img{
+    height:  80%;
+    transform: translate(-10vh, 10vh);
+  }
+  #messageall {
+    border-right: 1px solid rgba(97, 97, 97, 0.658);
+    height: 12vh;
+    display: flex;
+    width: 100vw;
+    z-index: 99;
+    align-items: center;
+    color: white;
+    flex-shrink: 0;
+  }
+  #messageall > h1 {
+    margin-bottom: 4vh;
+    display: none;
+  }
+  #messageall > h3{
+    display: none;
+  }
+  #messagewala {
+    width: 20%;
+    flex-direction: column;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10vh;
+  }
+  .online {
+    height: 1.7vh;
+    width: 1.7vh;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0.5vh;
+    right: 0.3vh;
+    background-color: rgb(8, 254, 8);
+  }
+  .offline {
+    height: 1.7vh;
+    width: 1.7vh;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0.5vh;
+    right: 0.3vh;
+  }
+
+  #messagewalapic {
+    position: relative;
+  }
+  #messagewalapic img {
+    object-fit: cover;
+    height: 8vh;
+    width: 8vh;
+    border-radius: 50%;
+  }
+  #messsagewalalnaam {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  #messsagewalalnaam h3{
+    display: none;
+  }
+  #messagebox {
+    display: none;
+    height: 100vh;
+    padding-left: 2vh;
+    padding-right: 2vh;
+    width: 100%;
+  }
+  #messagediv>img{
+    width: 250vw;
+    margin-left: -58%;
+    /* height: 100%; */
+  }
+  .messageboxnav {
+    display: flex;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.374);
+    position: relative;
+    gap: 3vh;
+    align-items: center;
+    height: 7vh;
+    width: 100%;
+  }
+  #online1 {
+    position: absolute;
+    left: 6.5vh;
+    z-index: 9;
+    bottom: 2vh;
+    background-color: rgb(18, 255, 18);
+    border-radius: 50%;
+    height: 1.5vh;
+    width: 1.5vh;
+  }
+  .messageboxnav img {
+    object-fit: cover;
+    height: 4vh;
+    width: 4vh;
+    border-radius: 50%;
+  }
+  #messagecontainer {
+    padding-top: 2vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    width: 100%;
+    background-color: black;
+    height: 61vh;
+  }
+  #messagecontainer::-webkit-scrollbar {
+    display: none;
+  }
+  #send {
+    display: flex;
+    width: 95%;
+    margin-left: 1vh;
+    gap: 2vh;
+    height: 6vh;
+    border-radius: 100px;
+    border: 1px solid rgba(128, 128, 128, 0.781);
+    padding-left: 3vh;
+    padding-right: 2vh;
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    background-color: transparent;
+  }
+  #send img {
+
+    height: 50%;
+  }
+  #send i {
+    font-size: 2vw;
+  }
+  #send svg{
+    width: 5vh;
+    display: none;
+  }
+  #send form {
+    position: relative;
+  }
+  #send form input {
+    font-size: 4vw;
+    font-weight: 300;
+    height: 100%;
+    width: 53vw;
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+  }
+  #send form input:nth-child(2) {
+    position: absolute;
+    height: 5vh;
+    width: 7vh;
+    opacity: 0;
+    background: #b48b8b;
+  }
+  #sender {
+    display: flex;
+    margin-bottom: 1vh;
+    width: 100%;
+    align-items: center;
+    gap: 1vh;
+    justify-content: start;
+    height: fit-content;
+  }
+  #msg {
+    width: fit-content;
+    padding: 0.5vh 2vh;
+    height: fit-content;
+    background-color: #262626df;
+    border-radius: 100px;
+  }
+  #receiver {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1vh;
+    gap: 1vh;
+    align-items: center;
+    justify-content: end;
+    height: fit-content;
+  }
+  #receiver #msg {
+    background: linear-gradient(#9645cb, #775ed6);
+  }
+  #sender img,
+  #receiver img {
+    height: 4vh;
+    width: 4vh;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  #khali{
+    margin-top: 80%;
+    font-weight: 300;
+    font-size: 2vw;
+  }
+  #receiver>a{
+    text-decoration: none;
+    color: rgba(255, 0, 0, 0.495);
+    font-size: 1vw;
+  }
+  #messagenav-a{
+    text-decoration: none;
+    color: white;
+    font-size: 1.5vw;
+    margin-left: 80%;
+  }
+  
+}
+
+
+
+
+
+
+
+
+</style>
+
+<div id="messagediv">
+  <div id="messageall">
+    <h1  style="font-weight: 300;">hey <%=loggedinuser.username%></h1>
+    <h3  style="font-weight: 300;">Messages</h3>
+    <% allusers.forEach(function(user){%>
+      <div
+      id="messagewala"
+      onclick="createMessageElement('<%=loggedinuser.id%>','<%=user._id%>','<%= user.image %>', '<%= user.username %>', '<%= user.name %>','<%=user.status%>')"
+      data-id="<%=user._id%>"
+      data-img="<%=user.image%>"
+      >
+      <div id="messagewalapic">
+        <img src="../images/allposts/<%= user.image %> " alt="" />
+        <% if(user.status ==="1"){%>
+          <div class="online" id="<%=user._id%>-status"></div>
+          <%}else{%>
+            <div class="offline" id="<%=user._id%>-status"></div>
+            <%}%>
+          </div>
+          <div id="messsagewalalnaam">
+            <h1  style="font-weight: 300;"><%=user.name%></h1>
+            <h3  style="font-weight: 300;"><%=user.username%></h3>
+          </div>
+        </div>
+        <%})%>
+        <br>
+      </div>
+      <img src="../images/message.png" alt="">
+  <div id="messagebox">
+    <div id="messageboxnav" class="messageboxnav"></div>
+    <div id="messagecontainer"></div>
+    <div id="send">
+      <form action="" id="chatform">
+        <input type="text" name="" id="chatinput" placeholder="Message..." oninput="checkInput()"/>
+        <input type="submit" value="xcsmzkx" id="chatsubmit" disabled/>
+      </form>
+      <img src="../images/send.webp" alt="" />
+      <svg
+        id="heart"
+        aria-label="Notifications"
+        class="x1lliihq x1n2onr6"
+        color="#ebebeb"
+        fill="#ebebeb"
+        height="38"
+        role="img"
+        viewBox="0 0 24 24"
+        width="38"
+      >
+        <title>Notifications</title>
+        <path
+          d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"
+        ></path>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<% include ./partials/footer.ejs %>
+<script>
+
+
+socket.on("online", function (data) {
+    $("#" + data.user_id + "-status")
+      .removeClass("offline")
+      .addClass("online");
+  });
+
+  socket.on("offline", function (data) {
+    $("#" + data.user_id + "-status")
+      .removeClass("online")
+      .addClass("offline");
+  });
+
+var receiverid;
+var senderid="<%=loggedinuser._id%>"
+  var socket = io({
+    auth: {
+      token: "<%=loggedinuser._id%>",
+    },
+  });
+  
+  
+  document.querySelectorAll("#messagewala").forEach(function (dets) {
+    dets.addEventListener("click", function (e) {
+      receiverid = this.getAttribute("data-id"); // Using vanilla JavaScript to get data-id
+      receiveridimg = this.getAttribute("data-img"); // Using vanilla JavaScript to get data-id
+      handleReceiverIdChange(receiverid,receiveridimg);
+      $("#messagecontainer").html("");
+      socket.emit("existschat", { senderid: "<%=loggedinuser._id%>", receiverid: receiverid });
+    });
+  });
+  
+  
+  // Move these outside the handleReceiverIdChange function to avoid reattaching multiple listeners
+  document.querySelector("#chatform").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var message = document.querySelector("#chatform input").value;
+    
+  
+    $.ajax({
+      url: "/chat",
+      method: "POST",
+      data: {
+        senderid: "<%=loggedinuser._id%>",
+        receiverid: receiverid,
+        message: message,
+        senderImage: "<%=loggedinuser.image%>"
+      },
+  
+      success: function (response) {
+        if (response.success) {
+          document.querySelector("#chatinput").value = "";
+          
+          // Check if the 'message' property is present in the response.data object
+          if (response.data.message && response.data.message.message) {
+             let chatid = response.data.message._id
+            let chatMessage = response.data.message.message;
+            var newdiv = document.createElement("div");
+            newdiv.id = "receiver";
+            var hasHeart = chatMessage && chatMessage.includes("❤️");
+            var backgroundStyle = hasHeart ? 'background: transparent; font-size:2vw ' : 'background: linear-gradient(#9645cb, #775ed6);';
+            newdiv.innerHTML = `
+              <div id="msg" style="${backgroundStyle}">
+                <h2 style="${backgroundStyle}" >${chatMessage}</h2>
+              </div>
+              <img src="../images/allposts/<%=loggedinuser.image%>" alt="" />
+            `;
+            document.querySelector("#messagecontainer").appendChild(newdiv);
+            document.getElementById('messagecontainer').scrollTop = messagecontainer.scrollHeight;
+            socket.emit("receiverchat", response.data);
+          } else {
+            console.log("Message not found in the response");
+          }
+        } else {
+          console.log("Error in response:", response.error);
+        }
+      },
+      error: function (error) {
+        console.log("Error:", error);
+      },
+    });
+  });
+  
+  socket.on("loadreceiverchat", function (data) {
+    if (senderid == data.message.receiverid && receiverid == data.message.senderid) {
+      var newdiv = document.createElement("div");
+      newdiv.id = "sender";
+      var hasHeart = data.message.message && data.message.message.includes("❤️");
+      var backgroundStyle = hasHeart ? 'background: transparent; font-size:2vw ' : 'background: linear-gradient(#9645cb, #775ed6);';
+      newdiv.innerHTML = `
+        <img src="../images/allposts/${data.senderImage}" alt="" />
+        <div id="msg" style="${backgroundStyle}" >
+          <h2 style="${backgroundStyle}" >${data.message.message}</h2>
+        </div>
+      `;
+      document.querySelector("#messagecontainer").appendChild(newdiv);
+      document.getElementById('messagecontainer').scrollTop = messagecontainer.scrollHeight;
+
+    }
+  });
+  function createMessageElement(loggedinuserid,id,image, username, name, status) {
+    // Remove the existing element from messageboxnav
+    var existingElement = document.getElementById("messageboxnav").firstChild;
+    if (existingElement) {
+      existingElement.remove();
+    }
+
+    // Create a new element
+    var newElement = document.createElement("div");
+    newElement.className = "messageboxnav"; // Add a class for styling if needed
+    // Set the inner HTML of the new element
+    newElement.innerHTML = `
+    <a href="${id === loggedinuserid ? '/profile' : '/profile/' + id}">
+        <img src="../images/allposts/${image}" alt="" />
+    </a>
+        <h1>${name}</h1>
+        <h4>${status === "1" ? '<div id="online1 "></div>' : ""}</h4>
+        `;
+        // <a href="/call/${id}" id="messagenav-a" ><i class="ri-video-chat-fill"></i></a>
+    // Append the new element to the messageboxnav div
+    document.getElementById("messageboxnav").appendChild(newElement);
+    document.getElementById('messagecontainer').scrollTop = messagecontainer.scrollHeight;
+
+  }
+  function handleReceiverIdChange(id,img) {
+    receiverid = id;
+    document.querySelector("#messagecontainer").innerHTML = "";
+  
+    // Remove existing socket event listeners before adding new ones
+    socket.off("loadchats");
+    
+    // Listen for the new chats for the specific receiver
+    socket.on("loadchats", function (data) {
+      var chats = data.chats;
+      let html = "";
+  
+      chats.forEach(function (chat) {
+        let addiv = chat.senderid === "<%=loggedinuser._id%>" ? "receiver" : "sender";
+        var hasHeart = chat.message.includes("❤️");
+        var backgroundStyle = hasHeart ? 'background: transparent; font-size:2vw' : 'background: linear-gradient(#9645cb, #775ed6);';
+        if (addiv === "receiver"){
+          html += `
+            <div id=${addiv} class="${chat._id}" >
+              <div id="msg" style="${backgroundStyle}">
+                <h2 style="${backgroundStyle}">${chat.message}</h2>
+                </div>
+                <img src="../images/allposts/<%=loggedinuser.image%>" alt="" />
+              </div>
+              `;
+            }else{
+              html += `
+              <div id=${addiv}  class=${chat._id} >
+                <img src="../images/allposts/${img}" alt="" />
+              <div id="msg" style="${backgroundStyle}" >
+                <h2 style="${backgroundStyle}" >${chat.message}</h2>
+              </div>
+            </div>
+          `;
+
+        }
+      });
+  
+      $("#messagecontainer").append(html);
+      document.getElementById('messagecontainer').scrollTop = messagecontainer.scrollHeight;
+    });
+  }
+  document.querySelector("#heart").addEventListener("click", function () {
+  var chatInput = document.querySelector("#chatinput");
+  var currentHearts = chatInput.value.match(/❤️/g) || []; // Count current hearts
+  var newHearts = "❤️".repeat(currentHearts.length + 1); // Add one more heart
+  chatInput.value = newHearts;
+  checkInput();
+});
+
+  function checkInput() {
+      var inputValue = document.getElementById("chatinput").value;
+      var submitButton = document.getElementById("chatsubmit");
+      submitButton.disabled = inputValue.trim().length === 0;
+    }
+
+    document.querySelectorAll("#messagewala").forEach(function(dets){
+      dets.addEventListener("click",function(){
+      document.querySelector("#messagebox").style.display = "initial";
+      document.querySelector("#messagediv>img").style.display = "none";
+      })
+    })
+
+</script>

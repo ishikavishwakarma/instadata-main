@@ -1,0 +1,479 @@
+<% include ./partials/header.ejs %>
+<style>
+  @font-face {
+  font-family: gilroy;
+  src: url(../fonts/Gilroy-Light.ttf);
+}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    font-family: gilroy;
+    width: 100%;
+    scroll-behavior: smooth;
+  }
+  :root {
+    font-size: 62.5%;
+  }
+  #explore{
+    position: relative;
+  }
+  #exploreposts{
+    padding-top: 5vw;
+    height: fit-content;
+    width: 100%;
+    padding-left: 20%;
+    display: grid;
+  grid-template-columns: 270px 270px 270px; 
+  grid-auto-rows: 280px;
+  grid-auto-flow: dense;
+  grid-gap: 1vh;
+}
+
+
+.kk:nth-child(7n+1){
+grid-column: span 1;
+grid-row: span 2;
+}
+
+    .kk{
+        position: relative;
+        overflow: hidden;
+    }
+    .kk video{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+    .kk img{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .kk svg{
+        position: absolute;
+        left: 2vh;
+        top: 2vh;
+
+    }
+#exploresearchparent{
+  height: 40vh;
+  width: 30%;
+  position: absolute;
+  /* display: none; */
+  top: 7vh;
+  left: -10vh;
+  background-color: rgba(0, 0, 0, 0.92);
+  z-index: 999;
+}
+  
+  .hidden {
+    display: none;
+  }
+  #co{
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    background-color: rgba(44, 44, 44, 0.397);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #co h6{
+    font-size: 1.5vw;
+  }
+  #explorefollowsearch{
+    width: 100%;
+        margin-top: 9%;
+        height: 5vh;
+        display: flex;
+        gap: 1vw;
+        margin-bottom: 5%;
+        align-items: center;
+        font-size: 1.5vw;
+    position: fixed;
+    left: 105vh;
+    top: -17vh;
+    background-color: transparent;
+    z-index: 99;
+  }
+   
+  #explorefollowsearch input{
+        padding-left: 5vh;
+        transform: translate(-5vh, 0);
+        background-color: transparent;
+        color: white;
+        outline: none;
+        border:none;
+        border-bottom: 1px solid #ffffff9d;
+    }
+
+    #exploreuserList{
+        height: 30vh;
+        width: 100%;
+        /* height: fit-content; */
+        padding-bottom: 3vh;
+        overflow-y: scroll;
+      }
+      #exploreuserList a:nth-child(1){
+        display: flex;
+        align-items: center;
+        gap: 1vh;
+      }
+      #exploreuserList::-webkit-scrollbar{
+        background-color: #3a3a3a;
+        width: 5px;
+      }
+      #exploreuserList::-webkit-scrollbar-thumb{
+        background-color: #4b4b4b;
+      }
+      .exploreusername {
+        /* display: block; */
+        width: 90%;
+        display: flex;
+        height: 8vh;
+        gap: 1vh;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+      #explorefollowerdetails{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        width: 60%;
+      }
+      .exploreusername img{
+        height: 5vh;
+        width: 5vh;
+        border-radius: 100%;
+        object-fit: cover;
+      }
+      #explorebtn{
+        padding: .8vh 1.5vh; background-color: #3a3a3a; color: white;border-radius: 10px; border: none; font-size: .7vw;
+      }
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+/* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  *//* media media medai medai  */
+@media(max-width:600px) {
+  @font-face {
+  font-family: gilroy;
+  src: url(../fonts/Gilroy-Light.ttf);
+}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    font-family: gilroy;
+    width: 100%;
+    scroll-behavior: smooth;
+  }
+  :root {
+    font-size: 62.5%;
+  }
+  #exploreposts{
+    padding-top: 10vw;
+    height: fit-content;
+    width: 100%;
+    padding-left: 0%;
+    display: grid;
+  grid-template-columns: 113px 113px 113px; 
+  grid-auto-rows: 105px;
+  grid-auto-flow: dense;
+  grid-gap: .5vh;
+}
+
+
+.kk:nth-child(7n+1){
+grid-column: span 1;
+grid-row: span 2;
+}
+
+    .kk{
+        position: relative;
+        overflow: hidden;
+    }
+    .kk video{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+    .kk img{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+ 
+#exploresearchparent{
+  height: 20vh;
+  width: 60%;
+  position: absolute;
+  top: 4vh;
+  left: -3.5vh;
+  background-color: rgba(0, 0, 0, 0.92);
+  z-index: 999;
+}
+#explorefollowsearch{
+    /* width: 100%; */
+        height: 5vh;
+        display: flex;
+        gap: 1vw;
+        align-items: center;
+        font-size: 4vw;
+    position: fixed;
+    /* left: 105vh; */
+    left: 13vh;
+    top: 0;
+    background-color: aqua;
+    background-color: transparent;
+    z-index: 99;
+  }
+   
+  #explorefollowsearch input{
+        padding-left: 5vh;
+        transform: translate(-5vh, 0);
+        background-color: transparent;
+        color: white;
+        outline: none;
+        border:none;
+        border-bottom: 1px solid #ffffff9d;
+    }
+
+    #exploreuserList{
+        height: 30vh;
+        width: 100%;
+        /* height: fit-content; */
+        padding-bottom: 3vh;
+        overflow-y: scroll;
+      }
+      #exploreuserList a:nth-child(1){
+        display: flex;
+        align-items: center;
+        gap: 1vh;
+      }
+      #exploreuserList::-webkit-scrollbar{
+        background-color: #3a3a3a;
+        width: 5px;
+      }
+      #exploreuserList::-webkit-scrollbar-thumb{
+        background-color: #4b4b4b;
+      }
+      .exploreusername {
+        /* display: block; */
+        width: 90%;
+        display: flex;
+        height: 8vh;
+        padding-left: 2vh;
+        gap: 1vh;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+      #explorefollowerdetails{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        width: 60%;
+      }
+      .exploreusername img{
+        height: 5vh;
+        width: 5vh;
+        border-radius: 100%;
+        object-fit: cover;
+      }
+      #explorebtn{
+        padding: 1vh 2vh; 
+        background-color: #3a3a3a;
+         color: white;border-radius: 10px; border: none; font-size: 2vw;
+      }
+  
+  #co{
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    background-color: rgba(44, 44, 44, 0.397);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #co h6{
+    font-size: 4vw;
+  }
+  
+  .kk svg{
+    height: 15px;
+    left: 0vh;
+    top: .5vh;
+    position: absolute;
+  }
+}
+
+</style>
+<div id="explore">
+  <div id="explorefollowsearch">
+      <i class="ri-search-line"></i>
+      <input type="text" id="exploresearchInput" placeholder="Search">
+      <div id="exploresearchparent" class="hidden">
+        <div id="exploreuserList">
+                <% allusers.forEach(function(user){%>
+                    <div class="exploreusername">
+                    <a href="/profile/<%= encodeURIComponent(user._id) %>">
+                        <img src="/images/allposts/<%=user.image%>" alt="">
+                    </a>
+                        <div id="explorefollowerdetails">
+                          <h4 style="color: #ffffff;"><%=user.username%></h4>
+                          <h4 style="font-weight: 300;color: #bdbdbd;"><%=user.name%></h4>
+                      </div>
+                      <% if (loggedinuser.following.includes(user._id)) { %>
+                        <a href="/unfollow/<%= user._id %>">
+                          <button id="explorebtn" style=" background-color: #3a3a3a; color: white;border-radius: 10px; border: none;">Following</button>
+                        </a>
+                      <% } else { %>
+                        <% if (user.followRequests.indexOf(loggedinuser._id) === -1) { %>
+                          <a href="/sendFollowRequest/<%= user._id %>">
+                            <button id="explorebtn" style=" background-color: rgb(0, 179, 255); color: white;border-radius: 10px; border: none;">Follow</button>
+                          </a>
+                        <% } else { %>
+                          <a href="/unsendFollowRequest/<%= user._id %>">
+                            <button id="explorebtn" style=" background-color: #3a3a3a; color: white;border-radius: 10px; border: none;">Requested</button>
+                          </a>
+                        <% } %>
+                      <% } %> 
+                    </div>
+                  <%}) %>
+              </div>                  
+       
+      </div>
+  </div>  
+  <div id="exploreposts">
+    
+    <%
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  shuffleArray(allposts);
+  const imagePosts = [];
+  const videoPosts = [];
+  allposts.forEach(function(post) {
+    const fileExtension = post.postimage.split('.').pop().toLowerCase();
+    if (fileExtension === 'mp4' || fileExtension === 'mkv') {
+      videoPosts.push(post);
+    } else {
+      imagePosts.push(post);
+    }
+  });
+  let counter = 0;
+  const firstVideoPost = videoPosts.length > 0 ? videoPosts[0] : null
+%>
+
+<div class="kk">
+    <div id="co">
+      <h6><%= firstVideoPost?.likes.length %><i class="ri-heart-fill" style="margin-right: 2vw;"></i><%= firstVideoPost?.comments.length %><i class="ri-chat-3-fill"></i></h6>
+    </div>
+    <svg aria-label="Reels" class="_ab6-" color="rgb(245, 245, 245)" fill="rgb(245, 245, 245)" height="24" role="img" viewBox="0 0 24 24" width="24" style="position: absolute; left:2vh; top:2vh "><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="2.049" x2="21.95" y1="7.002" y2="7.002"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="13.504" x2="16.362" y1="2.001" y2="7.002"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.207" x2="10.002" y1="2.11" y2="7.002"></line><path d="M2 12.001v3.449c0 2.849.698 4.006 1.606 4.945.94.908 2.098 1.607 4.946 1.607h6.896c2.848 0 4.006-.699 4.946-1.607.908-.939 1.606-2.096 1.606-4.945V8.552c0-2.848-.698-4.006-1.606-4.945C19.454 2.699 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.546 2 5.704 2 8.552Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M9.763 17.664a.908.908 0 0 1-.454-.787V11.63a.909.909 0 0 1 1.364-.788l4.545 2.624a.909.909 0 0 1 0 1.575l-4.545 2.624a.91.91 0 0 1-.91 0Z" fill-rule="evenodd"></path></svg>
+    <video src="../images/allposts/<%= firstVideoPost?.postimage %>" loop autoplay muted></video>
+  </div>
+
+  <% 
+  // Initialize a counter for tracking the video index
+  let videoIndex = 1;
+
+  // Loop through imagePosts and videoPosts
+  imagePosts.forEach(function (post, index) { %>
+    <div class="kk">
+      <div id="co">
+        <h6><%= post.likes.length %><i class="ri-heart-fill" style="margin-right: 2vw;"></i><%= post.comments.length %><i class="ri-chat-3-fill"></i></h6>
+      </div>
+      <svg aria-label="Carousel" class="x1lliihq x1n2onr6 x1hfr7tm xq3z1fi" fill="currentColor" height="24" role="img" viewBox="0 0 48 48" width="24" style="position: absolute; left:2vh; top:2vh " ><title>Carousel</title><path d="M34.8 29.7V11c0-2.9-2.3-5.2-5.2-5.2H11c-2.9 0-5.2 2.3-5.2 5.2v18.7c0 2.9 2.3 5.2 5.2 5.2h18.7c2.8-.1 5.1-2.4 5.1-5.2zM39.2 15v16.1c0 4.5-3.7 8.2-8.2 8.2H14.9c-.6 0-.9.7-.5 1.1 1 1.1 2.4 1.8 4.1 1.8h13.4c5.7 0 10.3-4.6 10.3-10.3V18.5c0-1.6-.7-3.1-1.8-4.1-.5-.4-1.2 0-1.2.6z"></path></svg>
+
+      <img src="../images/allposts/<%= post.postimage %>" alt="">
+    </div>
+
+    <% 
+    // Check if the current index is a 6th child and there's a corresponding video post available
+    if ((index + 1) % 6 === 0 && videoIndex < videoPosts.length) { %>
+      <div class="kk">
+        <div id="co">
+          <h6><%= videoPosts[videoIndex].likes.length %><i class="ri-heart-fill" style="margin-right: 2vw;"></i><%= videoPosts[videoIndex].comments.length %><i class="ri-chat-3-fill"></i></h6>
+        </div>
+    <svg aria-label="Reels" class="_ab6-" color="rgb(245, 245, 245)" fill="rgb(245, 245, 245)" height="24" role="img" viewBox="0 0 24 24" width="24" style="position: absolute; left:2vh; top:2vh "><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="2.049" x2="21.95" y1="7.002" y2="7.002"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="13.504" x2="16.362" y1="2.001" y2="7.002"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.207" x2="10.002" y1="2.11" y2="7.002"></line><path d="M2 12.001v3.449c0 2.849.698 4.006 1.606 4.945.94.908 2.098 1.607 4.946 1.607h6.896c2.848 0 4.006-.699 4.946-1.607.908-.939 1.606-2.096 1.606-4.945V8.552c0-2.848-.698-4.006-1.606-4.945C19.454 2.699 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.546 2 5.704 2 8.552Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M9.763 17.664a.908.908 0 0 1-.454-.787V11.63a.909.909 0 0 1 1.364-.788l4.545 2.624a.909.909 0 0 1 0 1.575l-4.545 2.624a.91.91 0 0 1-.91 0Z" fill-rule="evenodd"></path></svg>
+
+        <video src="../images/allposts/<%= videoPosts[videoIndex].postimage %>" loop autoplay muted></video>
+      </div>
+      <% 
+      // Increment the video index after displaying each video post
+      videoIndex++;
+    } %>
+  <% }); %>
+</div>
+</div>
+
+<% include ./partials/footer.ejs %>
+
+<script>
+    document.querySelectorAll(".kk").forEach(function(dets) {
+  dets.addEventListener("mousemove", function(elem) {
+    var mila = elem.srcElement.parentElement.childNodes[1];
+    
+    // Set opacity to 1
+    mila.style.opacity = 1;
+
+    // Automatically set opacity to 0 after 2 seconds
+    setTimeout(function() {
+      mila.style.opacity = 0;
+    }, 1000); // 2000 milliseconds = 2 seconds
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Get the input element and the target div
+  const inputElement = document.getElementById("exploresearchInput");
+  const targetDiv = document.getElementById("exploresearchparent");
+
+  // Add an event listener for the input event on the input element
+  inputElement.addEventListener("input", function () {
+    // Check if the input has a value
+    if (inputElement.value.trim() !== "") {
+      // If there's a value, show the target div
+      targetDiv.classList.remove("hidden");
+    } else {
+      // If the input is empty, hide the target div
+      targetDiv.classList.add("hidden");
+    }
+  });
+});
+document.getElementById('exploresearchInput').addEventListener('input', function() {
+    const searchQuery = this.value.toLowerCase();
+    const userElements = document.querySelectorAll('.exploreusername');
+
+    userElements.forEach(function(userElement) {
+        const username = userElement.innerText.toLowerCase();
+
+        if (username.includes(searchQuery)) {
+            userElement.style.display = 'flex';
+        } else {
+            userElement.style.display = 'none';
+        }
+    });
+});
+
+
+</script>
